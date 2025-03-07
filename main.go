@@ -7,6 +7,7 @@ import (
     "log"
     "net/http"
     "net/url"
+    "os"
 
     tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -38,7 +39,11 @@ func sendQueryToAPI(query string) string {
 }
 
 func main() {
-    botToken := "YOUR_TELEGRAM_BOT_TOKEN"
+    botToken := os.Getenv("BOT_TOKEN")
+
+    if botToken == "" {
+        log.Fatal("BOT_TOKEN environment variable is not set")
+    }
 
     bot, err := tgbotapi.NewBotAPI(botToken)
     if err != nil {
